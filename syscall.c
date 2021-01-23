@@ -103,6 +103,8 @@ extern int sys_unlink(void);
 extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
+extern int sys_getsyscallinfo(void);
+extern int getsyscallinfoCalls;
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -126,12 +128,14 @@ static int (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_getsyscallinfo]   sys_getsyscallinfo,
 };
 
 void
 syscall(void)
 {
   int num;
+  getsyscallinfoCalls++;
   struct proc *curproc = myproc();
 
   num = curproc->tf->eax;
